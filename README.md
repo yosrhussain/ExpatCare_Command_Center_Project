@@ -313,16 +313,6 @@ The platform generates:
 
 ---
 
-# Real-World Scenarios
-
-The project includes several simulated real-world use cases:
-- Instant approval for low-risk claims
-- Multi-country insurance coordination
-- Fraud detection workflows
-- Cultural sensitivity handling during Ramadan-related healthcare scenarios 
-
----
-
 # Opus Workflow Architecture
 
 ## Workflow Pipeline
