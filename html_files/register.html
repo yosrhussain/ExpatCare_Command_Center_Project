@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - ExpatCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --blue: #002855;
+            --light-blue: #1E4A7C;
+            --green: #00A651;
+            --white: #FFFFFF;
+            --light-gray: #F8F9FA;
+            --medium-gray: #E9ECEF;
+            --text: #2C3E50;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--light-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gold);
+            opacity: 0.08;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-150px) translateX(100px) rotate(90deg); }
+            50% { transform: translateY(-300px) translateX(-100px) rotate(180deg); }
+            75% { transform: translateY(-150px) translateX(100px) rotate(270deg); }
+        }
+
+        /* Main Container */
+        .register-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            animation: slideUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Header */
+        .register-header {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--green) 100%);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .register-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .heart-logo {
+            width: 70px;
+            height: 70px;
+            color: var(--white);
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.25));
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .register-header h1 {
+            color: var(--white);
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-header p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Progress Steps */
+        .progress-container {
+            padding: 30px 40px;
+            background: var(--light-gray);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--medium-gray);
+            z-index: 0;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--green));
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 3px solid var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text);
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .progress-step.active .step-circle {
+            background: linear-gradient(135deg, var(--gold), var(--green));
+            border-color: var(--gold);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            transform: scale(1.1);
+        }
+
+        .progress-step.completed .step-circle {
+            background: var(--green);
+            border-color: var(--green);
+            color: var(--white);
+        }
+
+        .step-label {
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .progress-step.active .step-label {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Form Container */
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group label .required {
+            color: #dc3545;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: var(--white);
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--gold);
+            opacity: 1;
+        }
+
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232C3E50' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-control.error {
+            border-color: #dc3545;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            cursor: pointer;
+            font-weight: 400 !important;
+        }
+
+        /* Buttons */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--green) 100%);
+            color: var(--white);
+            flex: 1;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text);
+            border: 2px solid var(--medium-gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-gray);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .register-footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--light-gray);
+            border-top: 1px solid var(--medium-gray);
+        }
+
+        .register-footer p {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .register-footer a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .register-footer a:hover {
+            color: var(--green);
+        }
+
+        /* Back to Home */
+        .back-home {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .back-home a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-5px);
+        }
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-content {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            animation: slideUp 0.4s ease;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--green), var(--gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .success-icon i {
+            color: var(--white);
+            font-size: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .register-container {
+                margin: 20px;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .register-header h1 {
+                font-size: 28px;
+            }
+
+            .progress-container {
+                padding: 20px;
+            }
+
+            .step-label {
+                font-size: 11px;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .back-home {
+                top: 15px;
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="particles">
+        <div class="particle" style="width: 120px; height: 120px; top: 15%; left: 15%; animation-delay: 0s;"></div>
+        <div class="particle" style="width: 180px; height: 180px; top: 65%; left: 75%; animation-delay: 3s;"></div>
+        <div class="particle" style="width: 100px; height: 100px; top: 75%; left: 25%; animation-delay: 6s;"></div>
+        <div class="particle" style="width: 150px; height: 150px; top: 35%; left: 65%; animation-delay: 9s;"></div>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="back-home">
+        <a href="home.html">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </div>
+
+    <!-- Registration Container -->
+    <div class="register-container">
+        <!-- Header -->
+        <div class="register-header">
+            <div class="logo-container">
+                <svg class="heart-logo" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    <path d="M12 8v8M8 12h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1>Create Your Account</h1>
+            <p>Join ExpatCare and experience healthcare claims in 45 seconds</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line">
+                    <div class="progress-line-fill" id="progressFill" style="width: 33.33%;"></div>
+                </div>
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Employment</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Insurance</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form id="registerForm" class="form-container">
+            <!-- Step 1: Personal Information -->
+            <div class="form-step active" data-step="1">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <span class="error-message" id="firstNameError">First name is required</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                        <span class="error-message" id="lastNameError">Last name is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <span class="error-message" id="emailError">Valid email is required</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Password <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <span class="error-message" id="passwordError">Password must be at least 8 characters</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        <span class="error-message" id="confirmPasswordError">Passwords do not match</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-phone input-icon"></i>
+                            <input type="tel" class="form-control" id="phone" placeholder="+971 XX XXX XXXX" required>
+                        </div>
+                        <span class="error-message" id="phoneError">Valid phone number is required</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar input-icon"></i>
+                            <input type="date" class="form-control" id="dob" required>
+                        </div>
+                        <span class="error-message" id="dobError">Date of birth is required</span>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" disabled>
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Employment Information -->
+            <div class="form-step" data-step="2">
+                <div class="form-group">
+                    <label>Employer Name <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-building input-icon"></i>
+                        <input type="text" class="form-control" id="employer" required>
+                    </div>
+                    <span class="error-message" id="employerError">Employer name is required</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Job Title <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-badge input-icon"></i>
+                            <input type="text" class="form-control" id="jobTitle" required>
+                        </div>
+                        <span class="error-message" id="jobTitleError">Job title is required</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Emirates ID <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card input-icon"></i>
+                            <input type="text" class="form-control" id="emiratesId" placeholder="784-XXXX-XXXXXXX-X" required>
+                        </div>
+                        <span class="error-message" id="emiratesIdError">Valid Emirates ID is required</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nationality <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-flag input-icon"></i>
+                            <select class="form-control" id="nationality" required>
+                                <option value="">Select Nationality</option>
+                                <option value="AE">United Arab Emirates</option>
+                                <option value="IN">India</option>
+                                <option value="PK">Pakistan</option>
+                                <option value="PH">Philippines</option>
+                                <option value="BD">Bangladesh</option>
+                                <option value="EG">Egypt</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="US">United States</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <span class="error-message" id="nationalityError">Nationality is required</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Employment Status <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-briefcase input-icon"></i>
+                            <select class="form-control" id="employmentStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="full-time">Full-Time</option>
+                                <option value="part-time">Part-Time</option>
+                                <option value="contract">Contract</option>
+                                <option value="freelance">Freelance</option>
+                            </select>
+                        </div>
+                        <span class="error-message" id="employmentStatusError">Employment status is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Residential Address <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-map-marker-alt input-icon"></i>
+                        <input type="text" class="form-control" id="address" required>
+                    </div>
+                    <span class="error-message" id="addressError">Address is required</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Insurance Information -->
+            <div class="form-step" data-step="3">
+                <div class="form-group">
+                    <label>Primary Insurance Provider <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-shield-alt input-icon"></i>
+                        <select class="form-control" id="primaryInsurance" required>
+                            <option value="">Select Provider</option>
+                            <option value="daman">Daman</option>
+                            <option value="ngi">Nextcare (NGI)</option>
+                            <option value="oman">Oman Insurance</option>
+                            <option value="orient">Orient Insurance</option>
+                            <option value="axa">AXA</option>
+                            <option value="metlife">MetLife</option>
+                            <option value="cigna">Cigna</option>
+                            <option value="bupa">BUPA</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <span class="error-message" id="primaryInsuranceError">Primary insurance is required</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Policy Number <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-file-contract input-icon"></i>
+                            <input type="text" class="form-control" id="policyNumber" required>
+                        </div>
+                        <span class="error-message" id="policyNumberError">Policy number is required</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Start Date <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar-check input-icon"></i>
+                            <input type="date" class="form-control" id="policyStartDate" required>
+                        </div>
+                        <span class="error-message" id="policyStartDateError">Policy start date is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Secondary Insurance Provider (Optional)</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-shield-alt input-icon"></i>
+                        <select class="form-control" id="secondaryInsurance">
+                            <option value="">None</option>
+                            <option value="daman">Daman</option>
+                            <option value="ngi">Nextcare (NGI)</option>
+                            <option value="oman">Oman Insurance</option>
+                            <option value="orient">Orient Insurance</option>
+                            <option value="axa">AXA</option>
+                            <option value="metlife">MetLife</option>
+                            <option value="cigna">Cigna</option>
+                            <option value="bupa">BUPA</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#" style="color: var(--gold);">Terms and Conditions</a> and 
+                        <a href="#" style="color: var(--gold);">Privacy Policy</a> of ExpatCare. 
+                        I consent to the processing of my health and personal data for claims management.
+                    </label>
+                </div>
+                <span class="error-message" id="termsError">You must agree to the terms and conditions</span>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check-circle"></i> Complete Registration
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Footer -->
+        <div class="register-footer">
+            <p>Already have an account? <a href="login.html">Sign In</a></p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 style="color: var(--blue); margin-bottom: 15px;">Registration Successful!</h2>
+            <p style="color: var(--text); margin-bottom: 30px;">
+                Your account has been created successfully. Redirecting to dashboard...
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        // Step Navigation
+        function nextStep(step) {
+            if (validateStep(step)) {
+                currentStep++;
+                updateSteps();
+                updateProgressBar();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevStep(step) {
+            currentStep--;
+            updateSteps();
+            updateProgressBar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateSteps() {
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                const stepNum = index + 1;
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        function updateProgressBar() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Validation
+        function validateStep(step) {
+            let isValid = true;
+
+            if (step === 1) {
+                isValid = validateField('firstName', 'firstNameError', 'First name is required') && isValid;
+                isValid = validateField('lastName', 'lastNameError', 'Last name is required') && isValid;
+                isValid = validateEmail('email', 'emailError') && isValid;
+                isValid = validatePassword('password', 'passwordError') && isValid;
+                isValid = validateConfirmPassword('confirmPassword', 'confirmPasswordError') && isValid;
+                isValid = validateField('phone', 'phoneError', 'Valid phone number is required') && isValid;
+                isValid = validateField('dob', 'dobError', 'Date of birth is required') && isValid;
+            } else if (step === 2) {
+                isValid = validateField('employer', 'employerError', 'Employer name is required') && isValid;
+                isValid = validateField('jobTitle', 'jobTitleError', 'Job title is required') && isValid;
+                isValid = validateField('emiratesId', 'emiratesIdError', 'Valid Emirates ID is required') && isValid;
+                isValid = validateField('nationality', 'nationalityError', 'Nationality is required') && isValid;
+                isValid = validateField('employmentStatus', 'employmentStatusError', 'Employment status is required') && isValid;
+                isValid = validateField('address', 'addressError', 'Address is required') && isValid;
+            } else if (step === 3) {
+                isValid = validateField('primaryInsurance', 'primaryInsuranceError', 'Primary insurance is required') && isValid;
+                isValid = validateField('policyNumber', 'policyNumberError', 'Policy number is required') && isValid;
+                isValid = validateField('policyStartDate', 'policyStartDateError', 'Policy start date is required') && isValid;
+                
+                const termsCheckbox = document.getElementById('terms');
+                const termsError = document.getElementById('termsError');
+                if (!termsCheckbox.checked) {
+                    termsError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    termsError.style.display = 'none';
+                }
+            }
+
+            return isValid;
+        }
+
+        function validateField(fieldId, errorId, errorMessage) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                error.textContent = errorMessage;
+                error.style.display = 'block';
+                return false;
+            }
+            
+            field.classList.remove('error');
+            error.style.display = 'none';
+            return true;
+        }
+
+        function validateEmail(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(field.value)) {
+                field.classList.add('error');
+                error.textContent = 'Valid email is required';
+                error.style.display = 'block';
+                return false;
+            }
+            
+            field.classList.remove('error');
+            error.style.display = 'none';
+            return true;
+        }
+
+        function validatePassword(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            
+            if (field.value.length < 8) {
+                field.classList.add('error');
+                error.textContent = 'Password must be at least 8 characters';
+                error.style.display = 'block';
+                return false;
+            }
+            
+            field.classList.remove('error');
+            error.style.display = 'none';
+            return true;
+        }
+
+        function validateConfirmPassword(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const password = document.getElementById('password');
+            const error = document.getElementById(errorId);
+            
+            if (field.value !== password.value) {
+                field.classList.add('error');
+                error.textContent = 'Passwords do not match';
+                error.style.display = 'block';
+                return false;
+            }
+            
+            field.classList.remove('error');
+            error.style.display = 'none';
+            return true;
+        }
+
+        // Form Submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateStep(3)) {
+                const userData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value,
+                    phone: document.getElementById('phone').value,
+                    dob: document.getElementById('dob').value,
+                    employer: document.getElementById('employer').value,
+                    jobTitle: document.getElementById('jobTitle').value,
+                    emiratesId: document.getElementById('emiratesId').value,
+                    nationality: document.getElementById('nationality').value,
+                    employmentStatus: document.getElementById('employmentStatus').value,
+                    address: document.getElementById('address').value,
+                    primaryInsurance: document.getElementById('primaryInsurance').value,
+                    policyNumber: document.getElementById('policyNumber').value,
+                    policyStartDate: document.getElementById('policyStartDate').value,
+                    secondaryInsurance: document.getElementById('secondaryInsurance').value,
+                    registrationDate: new Date().toISOString()
+                };
+
+                let users = JSON.parse(localStorage.getItem('expatcare_users') || '[]');
+                
+                const existingUser = users.find(u => u.email === userData.email);
+                if (existingUser) {
+                    alert('An account with this email already exists. Please sign in.');
+                    return;
+                }
+
+                users.push(userData);
+                localStorage.setItem('expatcare_users', JSON.stringify(users));
+
+                localStorage.setItem('expatcare_session', JSON.stringify({
+                    email: userData.email,
+                    loginTime: new Date().toISOString()
+                }));
+
+                document.getElementById('successModal').style.display = 'flex';
+
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+            }
+        });
+
+        // Real-time validation
+        document.querySelectorAll('.form-control').forEach(field => {
+            field.addEventListener('blur', function() {
+                const fieldId = this.id;
+                const errorId = fieldId + 'Error';
+                
+                if (document.getElementById(errorId)) {
+                    if (fieldId === 'email') {
+                        validateEmail(fieldId, errorId);
+                    } else if (fieldId === 'password') {
+                        validatePassword(fieldId, errorId);
+                    } else if (fieldId === 'confirmPassword') {
+                        validateConfirmPassword(fieldId, errorId);
+                    } else if (this.required) {
+                        validateField(fieldId, errorId, 'This field is required');
+                    }
+                }
+            });
+        });
+
+        updateProgressBar();
+    </script>
+</body>
+</html>

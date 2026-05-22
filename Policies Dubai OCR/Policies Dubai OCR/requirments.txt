@@ -1,0 +1,12 @@
+pillow
+pytesseract
+pdf2image
+opencv-python
+pandas
+python-dateutil
+rapidfuzz
+tqdm
+PyPDF2
+pandas
+python-Levenshtein
+

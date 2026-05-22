@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ExpatCare Command Center | UAE Healthcare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --gold-dark: #B8941E;
+            --deep-blue: #002855;
+            --royal-blue: #1E4A7C;
+            --emerald: #00A651;
+            --emerald-dark: #059669;
+            --error-red: #E63946;
+            --warning-orange: #F77F00;
+            --success-green: #06D6A0;
+            --white: #FFFFFF;
+            --light-gray: #F8F9FA;
+            --medium-gray: #E9ECEF;
+            --text-dark: #212529;
+            --text-secondary: #6C757D;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--royal-blue) 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Effects */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .geometric-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, var(--primary-gold) 35px, var(--primary-gold) 36px);
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1.2rem 5%;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .logo-text-span {
+            background: linear-gradient(135deg, var(--deep-blue), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Heart beating animation */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            40%, 100% { transform: scale(1); }
+        }
+
+        .heartbeat-line {
+            animation: pulse-line 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-line {
+            0%, 100% { 
+                opacity: 0.3;
+                stroke-dasharray: 100;
+                stroke-dashoffset: 0;
+            }
+            50% { 
+                opacity: 0.8;
+                stroke-dashoffset: 50;
+            }
+        }
+
+        .pulse-dot {
+            animation: pulse-wave 2s ease-out infinite;
+        }
+
+        .pulse-dot-1 { animation-delay: 0s; }
+        .pulse-dot-2 { animation-delay: 0.3s; }
+        .pulse-dot-3 { animation-delay: 0.6s; }
+
+        @keyframes pulse-wave {
+            0% { r: 2; opacity: 1; }
+            100% { r: 15; opacity: 0; }
+        }
+
+        .heart-shape {
+            animation: heart-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes heart-glow {
+            0%, 100% {
+                filter: url(#glow) drop-shadow(0 0 5px rgba(212, 175, 55, 0.3));
+            }
+            50% {
+                filter: url(#glow) drop-shadow(0 0 15px rgba(0, 166, 81, 0.6));
+            }
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--deep-blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, var(--error-red), #c21e2e);
+            color: var(--white);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+        }
+
+        .user-avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0, 166, 81, 0.05));
+            border-radius: 12px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
+        }
+
+        .user-details h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+        }
+
+        .user-details p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.8rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--emerald));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--deep-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 0.8rem;
+        }
+
+        .stat-change.positive {
+            background: rgba(6, 214, 160, 0.15);
+            color: var(--success-green);
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--deep-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--primary-gold);
+        }
+
+        /* Upload Methods */
+        .upload-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-method {
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            border: 2px dashed var(--medium-gray);
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-method:hover {
+            border-color: var(--primary-gold);
+            border-style: solid;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(0, 166, 81, 0.05));
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-method.active {
+            border-color: var(--primary-gold);
+            border-style: solid;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0, 166, 81, 0.05));
+        }
+
+        .upload-method i {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .upload-method h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .upload-method p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Drop Zone */
+        .drop-zone {
+            border: 3px dashed var(--medium-gray);
+            border-radius: 20px;
+            padding: 3.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drop-zone::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2), transparent);
+            transform: translate(-50%, -50%);
+            transition: all 0.3s;
+        }
+
+        .drop-zone.dragover {
+            border-color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.05);
+            transform: scale(1.02);
+        }
+
+        .drop-zone.dragover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .drop-zone i {
+            font-size: 3.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .drop-zone h3 {
+            font-size: 1.3rem;
+            color: var(--deep-blue);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .drop-zone p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            color: var(--white);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Form Section */
+        .form-section {
+            margin-top: 2.5rem;
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--deep-blue);
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 1rem;
+            border: 2px solid var(--medium-gray);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 30px rgba(6, 214, 160, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(6, 214, 160, 0.4);
+        }
+
+        /* Quick Actions Sidebar */
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.2rem;
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .action-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+        }
+
+        .action-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .action-btn {
+            width: 100%;
+            background: var(--light-gray);
+            border: 2px solid var(--medium-gray);
+            padding: 0.9rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--deep-blue);
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            color: var(--white);
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Workflow Section */
+        .workflow-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: none;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .workflow-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--medium-gray);
+            z-index: 0;
+        }
+
+        .workflow-progress {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--emerald));
+            z-index: 1;
+            transition: width 1s ease-in-out;
+        }
+
+        .workflow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border: 4px solid var(--medium-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .workflow-step.active .step-circle {
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            border-color: var(--primary-gold);
+            color: var(--white);
+            animation: pulse 2s infinite;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .workflow-step.completed .step-circle {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: var(--white);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .workflow-step.active .step-label {
+            color: var(--primary-gold);
+        }
+
+        .workflow-step.completed .step-label {
+            color: var(--success-green);
+        }
+
+        /* Processing Details */
+        .processing-details {
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem;
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .detail-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--deep-blue);
+        }
+
+        .detail-value {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-badge.processing {
+            background: rgba(247, 127, 0, 0.15);
+            color: var(--warning-orange);
+        }
+
+        .status-badge.completed {
+            background: rgba(6, 214, 160, 0.15);
+            color: var(--success-green);
+        }
+
+        /* AI Agents */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .agent-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.8rem;
+            border-left: 4px solid var(--primary-gold);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .agent-name {
+            font-weight: 700;
+            color: var(--deep-blue);
+            font-size: 1rem;
+        }
+
+        .agent-status {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--success-green);
+            animation: blink 2s infinite;
+            box-shadow: 0 0 12px var(--success-green);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .agent-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .agent-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--emerald));
+            transition: width 0.5s ease-in-out;
+        }
+
+        .agent-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Results Section */
+        .results-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: none;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .results-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .result-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--success-green), var(--emerald-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--white);
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.5s ease-out;
+            box-shadow: 0 15px 50px rgba(6, 214, 160, 0.4);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .result-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--success-green);
+            margin-bottom: 0.8rem;
+        }
+
+        .result-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .result-card h4 {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .result-card .value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--deep-blue);
+        }
+
+        .breakdown-section {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            border-radius: 16px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+            border-bottom: 2px solid var(--medium-gray);
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-top: 2.5rem;
+        }
+
+        .action-button {
+            background: var(--white);
+            border: 2px solid var(--deep-blue);
+            color: var(--deep-blue);
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-button:hover {
+            background: linear-gradient(135deg, var(--primary-gold), var(--emerald));
+            color: var(--white);
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .action-button i {
+            font-size: 1.8rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--white);
+            padding: 1.2rem 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-green);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error-red);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid var(--white);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 3%;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-steps {
+                flex-direction: column;
+            }
+
+            .workflow-steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="background-effects">
+        <div class="geometric-pattern"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg viewBox="0 0 60 60" class="logo-icon">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#00A651;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1E4A7C;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <path d="M5 30 L15 30 L18 20 L22 40 L26 25 L30 30 L55 30" stroke="url(#logoGradient)" stroke-width="2" fill="none" opacity="0.3" class="heartbeat-line"/>
+                    <path d="M30,50 C30,50 10,35 10,22 C10,15 15,12 20,12 C25,12 28,15 30,18 C32,15 35,12 40,12 C45,12 50,15 50,22 C50,35 30,50 30,50 Z" fill="url(#logoGradient)" filter="url(#glow)" class="heart-shape"/>
+                    <rect x="28" y="20" width="4" height="15" fill="white" rx="1"/>
+                    <rect x="22" y="26" width="16" height="4" fill="white" rx="1"/>
+                    <circle cx="30" cy="30" r="2" fill="#D4AF37" class="pulse-dot pulse-dot-1"/>
+                    <circle cx="30" cy="30" r="2" fill="#00A651" class="pulse-dot pulse-dot-2"/>
+                    <circle cx="30" cy="30" r="2" fill="#1E4A7C" class="pulse-dot pulse-dot-3"/>
+                </svg>
+                <div class="logo-text">
+                    <h1><span class="logo-text-span">ExpatCare</span> Command Center</h1>
+                    <p>AI-Powered Healthcare • UAE</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <a href="home.html" style="text-decoration: none; margin-right: 15px;">
+                    <button class="logout-btn" style="background: linear-gradient(135deg, var(--primary-gold), var(--emerald));">
+                        <i class="fas fa-home"></i> Home
+                    </button>
+                </a>
+                <div class="user-avatar-section">
+                    <div class="user-details">
+                        <h3 id="userName">Loading...</h3>
+                        <p id="userEmail">email@company.ae</p>
+                    </div>
+                    <div class="user-avatar" id="userAvatar">PS</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stats Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="totalClaims">0</div>
+                        <div class="stat-label">Total Claims</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                </div>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> Start submitting claims
+                </span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value">45s</div>
+                        <div class="stat-label">Avg Processing Time</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-down"></i> 70% faster
+                </span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Approval Rate</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> AI-powered accuracy
+                </span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="totalReimbursed">$0</div>
+                        <div class="stat-label">Total Reimbursed</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                </div>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> This year
+                </span>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-upload"></i>
+                        Submit New Claim
+                    </h2>
+                </div>
+
+                <!-- Upload Methods -->
+                <div class="upload-methods">
+                    <div class="upload-method active" data-method="file">
+                        <i class="fas fa-file-upload"></i>
+                        <h4>Upload Files</h4>
+                        <p>PDF, JPG, PNG</p>
+                    </div>
+                    <div class="upload-method" data-method="email">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email</h4>
+                        <p>Forward invoices</p>
+                    </div>
+                </div>
+
+                <!-- Drag & Drop Zone -->
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop Your Files Here</h3>
+                    <p>or</p>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-folder-open"></i> Browse Files
+                    </button>
+                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+
+                <!-- Uploaded Files Preview -->
+                <div id="filesPreview" style="display: none; margin-top: 1rem;"></div>
+
+                <!-- Claim Details Form -->
+                <div class="form-section" id="formSection">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--deep-blue); display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-clipboard-list"></i> Claim Details
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Date of Treatment *</label>
+                            <input type="date" id="treatmentDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Provider Name *</label>
+                            <input type="text" id="providerName" placeholder="e.g., Mediclinic City Hospital" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount Paid *</label>
+                            <input type="number" id="amountPaid" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Currency *</label>
+                            <select id="currency" required>
+                                <option value="AED">AED - UAE Dirham</option>
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="INR">INR - Indian Rupee</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Complaint / Reason for Visit *</label>
+                            <textarea id="complaint" placeholder="Describe your symptoms or reason for treatment..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Primary Insurance</label>
+                            <select id="primaryInsurance">
+                                <option value="daman">Daman Essential</option>
+                                <option value="axa">AXA Health</option>
+                                <option value="now-health">Now Health</option>
+                                <option value="cigna">Cigna Global</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Secondary Insurance (Optional)</label>
+                            <select id="secondaryInsurance">
+                                <option value="">None</option>
+                                <option value="icici">ICICI Lombard India</option>
+                                <option value="bupa">BUPA International</option>
+                                <option value="allianz">Allianz Worldwide</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="submitClaim()">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Claim for Processing
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Actions Sidebar -->
+            <div class="quick-actions">
+                <div class="action-card">
+                    <div class="action-header">
+                        <div class="action-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>Recent Claims</h3>
+                    </div>
+                    <p>View your claim history and track status</p>
+                    <button class="action-btn" onclick="showToast('Recent claims feature coming soon', 'info')">
+                        <i class="fas fa-list"></i> View All Claims
+                    </button>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-header">
+                        <div class="action-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Policy Info</h3>
+                    </div>
+                    <p>Check your coverage and benefits</p>
+                    <button class="action-btn" onclick="showToast('Policy information loaded', 'info')">
+                        <i class="fas fa-book"></i> View Policy
+                    </button>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-header">
+                        <div class="action-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Need Help?</h3>
+                    </div>
+                    <p>24/7 multilingual support available</p>
+                    <button class="action-btn" onclick="showToast('Support team contacted', 'success')">
+                        <i class="fas fa-comments"></i> Contact Support
+                    </button>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-header">
+                        <div class="action-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h3>Find Provider</h3>
+                    </div>
+                    <p>Search in-network healthcare providers</p>
+                    <button class="action-btn" onclick="showToast('Provider directory opened', 'info')">
+                        <i class="fas fa-map-marker-alt"></i> Search Providers
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Processing Section -->
+        <div class="workflow-section" id="workflowSection">
+            <h2 class="section-title">
+                <i class="fas fa-cogs"></i>
+                AI Processing Your Claim
+            </h2>
+
+            <!-- Workflow Steps -->
+            <div class="workflow-steps">
+                <div class="workflow-progress" id="workflowProgress"></div>
+                
+                <div class="workflow-step" data-step="1">
+                    <div class="step-circle">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    <div class="step-label">INTAKE</div>
+                </div>
+
+                <div class="workflow-step" data-step="2">
+                    <div class="step-circle">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="step-label">UNDERSTAND</div>
+                </div>
+
+                <div class="workflow-step" data-step="3">
+                    <div class="step-circle">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="step-label">DECIDE</div>
+                </div>
+
+                <div class="workflow-step" data-step="4">
+                    <div class="step-circle">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <div class="step-label">REVIEW</div>
+                </div>
+
+                <div class="workflow-step" data-step="5">
+                    <div class="step-circle">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="step-label">DELIVER</div>
+                </div>
+            </div>
+
+            <!-- Processing Details -->
+            <div class="processing-details">
+                <h3 style="margin-bottom: 1.5rem; color: var(--deep-blue); display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-info-circle"></i> Processing Details
+                </h3>
+                <div class="detail-item">
+                    <span class="detail-label">Claim ID</span>
+                    <span class="detail-value" id="claimId">CLM-2024-XXXX</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Status</span>
+                    <span class="detail-value">
+                        <span class="status-badge processing" id="statusBadge">Processing</span>
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Estimated Time</span>
+                    <span class="detail-value" id="estimatedTime">~45 seconds</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Current Stage</span>
+                    <span class="detail-value" id="currentStage">Document validation</span>
+                </div>
+            </div>
+
+            <!-- AI Agents Grid -->
+            <div class="agents-grid">
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <span class="agent-name">🩺 Medical Claims Analyst</span>
+                        <div class="agent-status"></div>
+                    </div>
+                    <div class="agent-progress">
+                        <div class="agent-progress-bar" style="width: 0%" id="agent1Progress"></div>
+                    </div>
+                    <div class="agent-info" id="agent1Info">Validating diagnosis-treatment coherence...</div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <span class="agent-name">🛡️ Fraud Detection Specialist</span>
+                        <div class="agent-status"></div>
+                    </div>
+                    <div class="agent-progress">
+                        <div class="agent-progress-bar" style="width: 0%" id="agent2Progress"></div>
+                    </div>
+                    <div class="agent-info" id="agent2Info">Analyzing claim patterns...</div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <span class="agent-name">📄 Policy Interpreter</span>
+                        <div class="agent-status"></div>
+                    </div>
+                    <div class="agent-progress">
+                        <div class="agent-progress-bar" style="width: 0%" id="agent3Progress"></div>
+                    </div>
+                    <div class="agent-info" id="agent3Info">Searching policy documents...</div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <span class="agent-name">🌍 Cross-Border Coordinator</span>
+                        <div class="agent-status"></div>
+                    </div>
+                    <div class="agent-progress">
+                        <div class="agent-progress-bar" style="width: 0%" id="agent4Progress"></div>
+                    </div>
+                    <div class="agent-info" id="agent4Info">Checking multi-jurisdiction requirements...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="result-header">
+                <div class="result-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h2 class="result-title">Claim Approved!</h2>
+                <p class="result-subtitle">Your claim has been successfully processed</p>
+            </div>
+
+            <div class="result-details">
+                <div class="result-card">
+                    <h4>Total Claimed</h4>
+                    <div class="value" id="totalClaimed">0 AED</div>
+                </div>
+                <div class="result-card">
+                    <h4>Approved Amount</h4>
+                    <div class="value" id="approvedAmount">0 AED</div>
+                </div>
+                <div class="result-card">
+                    <h4>Processing Time</h4>
+                    <div class="value" id="processingTime">45 sec</div>
+                </div>
+                <div class="result-card">
+                    <h4>Confidence Score</h4>
+                    <div class="value" id="confidenceScore">96%</div>
+                </div>
+            </div>
+
+            <div class="breakdown-section">
+                <h3 style="margin-bottom: 1rem; color: var(--deep-blue); display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-receipt"></i> Payment Breakdown
+                </h3>
+                <div class="breakdown-item">
+                    <span>Primary Insurance</span>
+                    <strong id="primaryCoverage">0 AED</strong>
+                </div>
+                <div class="breakdown-item">
+                    <span>Secondary Insurance</span>
+                    <strong id="secondaryCoverage">0 AED</strong>
+                </div>
+                <div class="breakdown-item">
+                    <span>Out of Pocket</span>
+                    <strong id="outOfPocket">0 AED</strong>
+                </div>
+                <div class="breakdown-item" style="border-top: 3px solid var(--deep-blue); padding-top: 1rem; margin-top: 0.5rem;">
+                    <span style="font-weight: 700; color: var(--deep-blue);">Expected Payment Date</span>
+                    <strong style="color: var(--emerald);" id="paymentDate">-</strong>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button" onclick="downloadEOB()">
+                    <i class="fas fa-download"></i>
+                    <span>Download EOB</span>
+                </button>
+                <button class="action-button" onclick="viewAuditTrail()">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Audit Trail</span>
+                </button>
+                <button class="action-button" onclick="submitNewClaim()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>New Claim</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" id="toastIcon"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        // Global Variables
+        let uploadedFiles = [];
+        let currentStep = 0;
+        let claimData = {};
+        let claimCounter = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+            setupEventListeners();
+            loadClaimCounter();
+        });
+
+        // Check Authentication
+        function checkAuthentication() {
+            const session = localStorage.getItem('expatcare_session');
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const sessionData = JSON.parse(session);
+            document.getElementById('userName').textContent = sessionData.firstName + ' ' + sessionData.lastName;
+            document.getElementById('userEmail').textContent = sessionData.email;
+            document.getElementById('userAvatar').textContent = sessionData.firstName.charAt(0) + sessionData.lastName.charAt(0);
+        }
+
+        // Load Claim Counter
+        function loadClaimCounter() {
+            claimCounter = parseInt(localStorage.getItem('expatcare_claim_count') || '0');
+            document.getElementById('totalClaims').textContent = claimCounter;
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('expatcare_session');
+                showToast('Logged out successfully', 'success');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1000);
+            }
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+
+            document.querySelectorAll('.upload-method').forEach(method => {
+                method.addEventListener('click', function() {
+                    document.querySelectorAll('.upload-method').forEach(m => m.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const methodType = this.getAttribute('data-method');
+                    if (methodType === 'email') {
+                        showToast('Email: claims@expatcare.ae', 'info');
+                    }
+                });
+            });
+        }
+
+        // Handle File Upload
+        function handleFiles(files) {
+            uploadedFiles = Array.from(files);
+            displayFilePreview();
+            document.getElementById('formSection').classList.add('active');
+            showToast(`${files.length} file(s) uploaded successfully`, 'success');
+        }
+
+        function displayFilePreview() {
+            const preview = document.getElementById('filesPreview');
+            preview.style.display = 'block';
+            preview.innerHTML = '<h4 style="margin-bottom: 1rem; color: var(--deep-blue);">Uploaded Files:</h4>';
+            
+            uploadedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'detail-item';
+                fileItem.innerHTML = `
+                    <span class="detail-label">
+                        <i class="fas fa-file-${getFileIcon(file.type)}"></i> ${file.name}
+                    </span>
+                    <span class="detail-value">
+                        ${formatFileSize(file.size)}
+                        <i class="fas fa-times" style="cursor: pointer; color: var(--error-red); margin-left: 10px;" onclick="removeFile(${index})"></i>
+                    </span>
+                `;
+                preview.appendChild(fileItem);
+            });
+        }
+
+        function getFileIcon(type) {
+            if (type.includes('pdf')) return 'pdf';
+            if (type.includes('image')) return 'image';
+            return 'file';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            if (uploadedFiles.length === 0) {
+                document.getElementById('filesPreview').style.display = 'none';
+                document.getElementById('formSection').classList.remove('active');
+            } else {
+                displayFilePreview();
+            }
+            showToast('File removed', 'info');
+        }
+
+        // Submit Claim
+        function submitClaim() {
+            const treatmentDate = document.getElementById('treatmentDate').value;
+            const providerName = document.getElementById('providerName').value;
+            const amountPaid = document.getElementById('amountPaid').value;
+            const complaint = document.getElementById('complaint').value;
+
+            if (!treatmentDate || !providerName || !amountPaid || !complaint) {
+                showToast('Please fill all required fields', 'error');
+                return;
+            }
+
+            if (uploadedFiles.length === 0) {
+                showToast('Please upload at least one document', 'error');
+                return;
+            }
+
+            claimData = {
+                id: 'CLM-2024-' + Math.floor(Math.random() * 10000),
+                treatmentDate,
+                providerName,
+                amountPaid: parseFloat(amountPaid),
+                currency: document.getElementById('currency').value,
+                complaint,
+                primaryInsurance: document.getElementById('primaryInsurance').value,
+                secondaryInsurance: document.getElementById('secondaryInsurance').value,
+                files: uploadedFiles
+            };
+
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('workflowSection').classList.add('active');
+            document.getElementById('claimId').textContent = claimData.id;
+
+            processWorkflow();
+        }
+
+        // Process Workflow
+        async function processWorkflow() {
+            const steps = [
+                { name: 'INTAKE', duration: 2000, stage: 'Document extraction & validation' },
+                { name: 'UNDERSTAND', duration: 5000, stage: 'AI agents analyzing claim' },
+                { name: 'DECIDE', duration: 3000, stage: 'Applying decisioning rules' },
+                { name: 'REVIEW', duration: 4000, stage: 'Quality assurance check' },
+                { name: 'DELIVER', duration: 2000, stage: 'Preparing results' }
+            ];
+
+            for (let i = 0; i < steps.length; i++) {
+                currentStep = i + 1;
+                updateWorkflowStep(i + 1);
+                document.getElementById('currentStage').textContent = steps[i].stage;
+                
+                if (i === 1) {
+                    simulateAgents();
+                }
+
+                await sleep(steps[i].duration);
+            }
+
+            showResults();
+        }
+
+        function updateWorkflowStep(step) {
+            const progress = (step / 5) * 100;
+            document.getElementById('workflowProgress').style.width = progress + '%';
+
+            document.querySelectorAll('.workflow-step').forEach((stepEl, index) => {
+                const stepNum = index + 1;
+                if (stepNum < step) {
+                    stepEl.classList.add('completed');
+                    stepEl.classList.remove('active');
+                } else if (stepNum === step) {
+                    stepEl.classList.add('active');
+                    stepEl.classList.remove('completed');
+                } else {
+                    stepEl.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        async function simulateAgents() {
+            const agents = [
+                { id: 1, messages: ['Validating diagnosis...', 'Checking medical necessity...', 'Analysis complete ✓'] },
+                { id: 2, messages: ['Scanning for patterns...', 'Checking provider reputation...', 'No fraud detected ✓'] },
+                { id: 3, messages: ['Searching policy documents...', 'Found coverage clause...', 'Coverage confirmed ✓'] },
+                { id: 4, messages: ['Checking currency rates...', 'Validating documentation...', 'Coordination complete ✓'] }
+            ];
+
+            for (let progress = 0; progress <= 100; progress += 20) {
+                await sleep(1000);
+                agents.forEach(agent => {
+                    document.getElementById(`agent${agent.id}Progress`).style.width = progress + '%';
+                    
+                    if (progress === 40) {
+                        document.getElementById(`agent${agent.id}Info`).textContent = agent.messages[0];
+                    } else if (progress === 70) {
+                        document.getElementById(`agent${agent.id}Info`).textContent = agent.messages[1];
+                    } else if (progress === 100) {
+                        document.getElementById(`agent${agent.id}Info`).textContent = agent.messages[2];
+                    }
+                });
+            }
+        }
+
+        function showResults() {
+            document.getElementById('workflowSection').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('active');
+            document.getElementById('statusBadge').textContent = 'Completed';
+            document.getElementById('statusBadge').className = 'status-badge completed';
+
+            document.getElementById('totalClaimed').textContent = claimData.amountPaid.toLocaleString() + ' ' + claimData.currency;
+            document.getElementById('approvedAmount').textContent = claimData.amountPaid.toLocaleString() + ' ' + claimData.currency;
+            document.getElementById('processingTime').textContent = '45 sec';
+            document.getElementById('confidenceScore').textContent = '96%';
+
+            const primary = Math.min(claimData.amountPaid, 2500);
+            const secondary = Math.max(0, claimData.amountPaid - primary);
+            const outOfPocket = Math.max(0, claimData.amountPaid - primary - secondary);
+
+            document.getElementById('primaryCoverage').textContent = primary.toLocaleString() + ' ' + claimData.currency;
+            document.getElementById('secondaryCoverage').textContent = secondary.toLocaleString() + ' ' + claimData.currency;
+            document.getElementById('outOfPocket').textContent = outOfPocket.toLocaleString() + ' ' + claimData.currency;
+
+            const paymentDate = new Date();
+            paymentDate.setDate(paymentDate.getDate() + 3);
+            document.getElementById('paymentDate').textContent = paymentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            // Update claim counter
+            claimCounter++;
+            localStorage.setItem('expatcare_claim_count', claimCounter.toString());
+            document.getElementById('totalClaims').textContent = claimCounter;
+
+            showToast('Claim approved successfully!', 'success');
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toast.className = `toast ${type}`;
+            
+            if (type === 'success') {
+                toastIcon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle';
+            } else {
+                toastIcon.className = 'fas fa-info-circle';
+            }
+
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function submitNewClaim() {
+            location.reload();
+        }
+
+        function downloadEOB() {
+            showToast('Downloading Explanation of Benefits...', 'success');
+            setTimeout(() => {
+                showToast('EOB downloaded successfully!', 'success');
+            }, 1500);
+        }
+
+        function viewAuditTrail() {
+            showToast('Opening audit trail...', 'info');
+            setTimeout(() => {
+                alert('Audit Trail:\n\n' +
+                      'Claim ID: ' + claimData.id + '\n' +
+                      'Submitted: ' + new Date().toLocaleString() + '\n' +
+                      'Document Confidence: 92%\n' +
+                      'Medical Validity: Valid\n' +
+                      'Fraud Risk: Low (2/100)\n' +
+                      'Policy Coverage: Confirmed\n' +
+                      'Decision: AUTO-APPROVED\n' +
+                      'Processing Time: 45 seconds\n\n' +
+                      'All decision factors logged and traceable.');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
+

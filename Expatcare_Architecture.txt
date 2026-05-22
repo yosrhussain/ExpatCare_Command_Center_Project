@@ -1,0 +1,128 @@
+┌─────────────────────────────────────────┐
+│         FRONTEND (Interface)            │
+│  • home.html, dashboard.html            │
+│  • login.html, register.html            │
+│  • Hosted: Netlify/Vercel (Free)       │
+└────────────┬────────────────────────────┘
+             │ 
+             │ API Call (fetch/axios)
+             │ POST /webhook/expatcare
+             ▼
+┌─────────────────────────────────────────┐
+│       n8n WORKFLOW (Backend) 🎯         │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │  1. INTAKE                      │   │
+│  │  • Webhook Node                 │   │
+│  │  • File Upload (PDF/CSV/Image)  │   │
+│  │  • Multi-format parser          │   │
+│  └──────────┬──────────────────────┘   │
+│             │                           │
+│             ▼                           │
+│  ┌─────────────────────────────────┐   │
+│  │  2. UNDERSTAND                  │   │
+│  │  • Gemini OCR Node              │   │
+│  │  • Data Extraction              │   │
+│  │  • Field Validation             │   │
+│  └──────────┬──────────────────────┘   │
+│             │                           │
+│             ▼                           │
+│  ┌─────────────────────────────────┐   │
+│  │  3. DECIDE (Parallel)           │   │
+│  │  ├─→ 🤖 Claims Analyst          │   │
+│  │  │     ├─ Read invoices DB      │   │
+│  │  │     └─ Gemini AI analysis    │   │
+│  │  │                               │   │
+│  │  ├─→ 🤖 Fraud Detection         │   │
+│  │  │     ├─ Read fraud_patterns   │   │
+│  │  │     └─ Risk scoring (0-100)  │   │
+│  │  │                               │   │
+│  │  └─→ 🤖 Policy Interpreter      │   │
+│  │        ├─ RAG Vector Search     │   │
+│  │        └─ Coverage check        │   │
+│  └──────────┬──────────────────────┘   │
+│             │                           │
+│             ▼                           │
+│  ┌─────────────────────────────────┐   │
+│  │  4. REVIEW                      │   │
+│  │  • IF Node (risk > 70?)         │   │
+│  │  ├─ YES → Human Review Queue    │   │
+│  │  │    ├─ Email Alert            │   │
+│  │  │    ├─ SMS Notification       │   │
+│  │  │    └─ Slack Webhook          │   │
+│  │  └─ NO → Auto-approve           │   │
+│  └──────────┬──────────────────────┘   │
+│             │                           │
+│             ▼                           │
+│  ┌─────────────────────────────────┐   │
+│  │  5. DELIVER (Parallel)          │   │
+│  │  ├─→ Update Dashboard (WebAPI)  │   │
+│  │  ├─→ Send Email (SMTP)          │   │
+│  │  ├─→ Log to Google Sheets       │   │
+│  │  └─→ Generate Audit JSON/PDF    │   │
+│  └─────────────────────────────────┘   │
+│                                         │
+└────────┬────────────────────────────────┘
+         │
+         │ Read/Write
+         ▼
+┌─────────────────────────────────────────┐
+│    DATABASE (Supabase PostgreSQL)       │
+│                                         │
+│  Tables:                                │
+│  • invoices (1,000 rows)                │
+│  • fraud_patterns (10,000 rows)         │
+│  • policy_rules (extracted from PDFs)   │
+│  • policy_embeddings (RAG vectors)      │
+│  • review_queue (pending claims)        │
+│  • audit_logs (full traceability)       │
+│                                         │
+│  Extensions:                            │
+│  • pgvector (for RAG similarity search) │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│      EXTERNAL APIS (Free Tier)          │
+│                                         │
+│  • Gemini AI (Google)                   │
+│    └─ OCR, Embeddings, Analysis         │
+│  • Twilio (SMS alerts)                  │
+│  • Gmail SMTP (Email delivery)          │
+│  • Slack Webhook (Team notifications)   │
+│  • DHA/DOH Open Data (Provider verify)  │
+└─────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════
+                    DATA FLOW EXAMPLE
+═══════════════════════════════════════════════════════════════
+
+Patient uploads invoice.pdf
+    ↓
+Frontend (dashboard.html) 
+    → fetch('https://n8n.app/webhook/expatcare', {file})
+    ↓
+n8n Webhook receives request
+    ↓
+Gemini OCR extracts: {provider, amount, cpt_code}
+    ↓
+[Parallel Processing]
+    ├─→ Claims Analyst queries DB → Valid invoice? ✅
+    ├─→ Fraud Detection queries DB → Risk score: 23/100 ✅
+    └─→ Policy Interpreter (RAG) → Coverage: 100% ✅
+    ↓
+Merge results → Decision: APPROVED
+    ↓
+IF risk < 70 → Auto-approve (no human review)
+    ↓
+[Parallel Delivery]
+    ├─→ Dashboard real-time update: "✅ Approved"
+    ├─→ Email: "Your claim #67890 approved"
+    ├─→ Google Sheets: Log row
+    └─→ Audit JSON saved to database
+    ↓
+Total time: 18 seconds ⚡
+Patient sees result on dashboard instantly 
+
+
+
